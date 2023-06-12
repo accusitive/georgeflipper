@@ -58,11 +58,11 @@ def handle_post_request():
     eq = data['eq']
     segment_time = data['segment_time']
     watermark = data['watermark']
-    movie.save(f"./tmp/{movie.filename}")
+    movie.save(f"/tmp/{movie.filename}")
     temp_dir = tempfile.TemporaryDirectory()
     temp_dir_path = temp_dir.name
-    os.mkdir('./tmp')
-    chunks(f"./tmp/{movie.filename}", None,
+    # os.mkdir('./tmp')
+    chunks(f"/tmp/{movie.filename}", None,
            f"{temp_dir_path}/output", "default", segment_time, watermark)
 
     zip_file_path = 'temp.zip'
