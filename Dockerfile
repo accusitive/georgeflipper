@@ -8,6 +8,7 @@ RUN apt-get update && \
 RUN pip3 install flask flask-cors ffmpeg-python
 
 # Clone the repository
+ARG CACHEBUST=1
 RUN git clone https://github.com/accusitive/georgeflipper
 
 # Set the working directory
