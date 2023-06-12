@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload and Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .slider-label {
+            display: inline-block;
+            width: 60px;
+        }
+
+        .slider-value {
+            display: inline-block;
+            width: 40px;
+        }
+
+        input[type="file"],
+        input[type="text"],
+        input[type="submit"] {
+            background-color: #444;
+            color: #fff;
+            border: none;
+            padding: 5px;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+
+        input[type="range"] {
+            width: 300px;
+            margin-top: 5px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background-color: #888;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background-color: #ccc;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:active {
+            background-color: #ddd;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+            cursor: pointer;
+        }
+
+        #watermark-label {
+            margin-right: 10px;
+        }
+
+        #watermark {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>File Upload and Download</h1>
+    <form id="upload-form" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="file">Select File:</label>
+            <input type="file" name="file" id="file" required>
+        </div>
+        <div class="form-group">
+            <label class="slider-label" for="segment-time">Segment Time:</label>
+            <input type="range" name="segment_time" id="segment-time" min="15" max="90" step="1" value="15">
+            <span class="slider-value" id="segment-time-value">15</span> seconds
+        </div>
+        <div class="form-group">
+            <label for="watermark" id="watermark-label">Watermark:</label>
+            <input type="text" name="watermark" id="watermark">
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+
+    <script>
+        const segmentTimeSlider = document.getElementById('segment-time');
+        const segmentTimeValue = document.getElementById('segment-time-value');
+
+        segmentTimeSlider.addEventListener('input', function () {
+            segmentTimeValue.textContent = segmentTimeSlider.value;
+        });
+
+        const form = document.getElementById('upload-form');
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append('file', document.getElementById('file').files[0]);
+
+            const data = {
+                eq: 'default',
+                segment_time: segmentTimeSlider.value,
+                watermark: document.getElementById('watermark').value
+            };
+            formData.append('data', JSON.stringify(data));
+
+            fetch('http://127.0.0.1:5000/api', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'output.zip';
+                    link.click();
+                    URL.revokeObjectURL(url);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>
