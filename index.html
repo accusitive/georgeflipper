@@ -121,7 +121,7 @@
             };
             formData.append('data', JSON.stringify(data));
 
-            fetch('http://127.0.0.1:5000/api', {
+            fetch('/api', {
                 method: 'POST',
                 body: formData
             })
