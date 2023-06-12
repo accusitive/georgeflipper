@@ -9,7 +9,8 @@ app = Flask(__name__)
 CORS(app)
 
 video_settings = {
-    "vcodec": 'h264_nvenc',
+    # "vcodec": 'h264_nvenc',
+    "vcodec": "h264",
     "preset": 'fast',
     "rc": 'vbr',
     # "b": '5M',
