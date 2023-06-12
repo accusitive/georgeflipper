@@ -61,7 +61,7 @@ def handle_post_request():
     movie.save(f"./tmp/{movie.filename}")
     temp_dir = tempfile.TemporaryDirectory()
     temp_dir_path = temp_dir.name
-
+    os.mkdir('./tmp')
     chunks(f"./tmp/{movie.filename}", None,
            f"{temp_dir_path}/output", "default", segment_time, watermark)
 
