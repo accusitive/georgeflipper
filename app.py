@@ -82,4 +82,4 @@ def handle_post_request():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=os.path.exists('.debug'), host='0.0.0.0')
