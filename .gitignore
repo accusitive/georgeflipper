@@ -1,4 +1,4 @@
-tmp/
+tmp/*
 output/
 __pycache__
 *.mp4

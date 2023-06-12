@@ -5,7 +5,7 @@ RUN apt-get update && \
     apt-get install -y python3-pip git ffmpeg
 
 # Install Flask and dependencies
-RUN pip3 install flask flask-cors python-ffmpeg
+RUN pip3 install flask flask-cors ffmpeg-python
 
 # Clone the repository
 RUN git clone https://github.com/accusitive/georgeflipper
