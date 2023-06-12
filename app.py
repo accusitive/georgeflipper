@@ -46,7 +46,9 @@ def chunks(movie, subs, output, eq, segment_time, watermark):
 
     print(output.get_args())
     ffmpeg.run(output)
-
+@app.route('/gl.png')
+def gl():
+    return send_file("./gl.png")
 @app.route('/')
 def root():
     return send_file('index.html')
@@ -83,4 +85,4 @@ def handle_post_request():
 
 
 if __name__ == '__main__':
-    app.run(debug=os.path.exists('.debug'), host='0.0.0.0')
+    app.run(debug=os.path.exists('.debug'), host='0.0.0.0', port=80)
